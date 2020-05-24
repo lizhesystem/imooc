@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.lizhe.security</groupId>
+    <artifactId>lizhe-security</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+
+    <properties>
+        <lizhe.security.version>1.0.0-SNAPSHOT</lizhe.security.version>
+    </properties>
+
+    <dependencyManagement>
+        <!--管理maven依赖,不用写版本,兼容jar包作用,管理版本,根据需要的依赖自动导入-->
+        <!--https://spring.io/projects/platform#learn-->
+        <dependencies>
+            <dependency>
+                <groupId>io.spring.platform</groupId>
+                <artifactId>platform-bom</artifactId>
+                <version>Brussels-SR17</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+             <!--https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies-->
+            <dependency>
+                <!--spring-cloud的依赖-->
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>Dalston.SR5</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+
+    <!--为了让maven的jdk编译版本一致, 使用maven-compiler-plugin插件来协助管理-->
+    <!--例如代码中要是使用上了jdk1.7的新特性，但是maven在编译的时候使用的是jdk1.6的版本，那这一段代码是完全不可能编译成.class文件的。-->
+    <!--为了处理这一种情况的出现，在构建maven项目的时候，我习惯性第一步就是配置maven-compiler-plugin插件。-->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!--管理子项目-->
+    <modules>
+        <module>../lizhe-security-app</module>
+        <module>../lizhe-security-browser</module>
+        <module>../lizhe-security-code</module>
+        <module>../lizhe-security-demo</module>
+    </modules>
+
+</project>

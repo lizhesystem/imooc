@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+</head>
+<body>
+<form action="/auth/login" method="post">
+    用户名: <input type="text" name="username">
+    密码: <input type="password" name="password">
+    验证码:<input type="text" name="verifyCode"><img src="/verifyCode/image" alt="">
+    <!--验证码:<input type="text" name="verifyCode"><img src="/verifyCode/image?width=200" alt="">-->
+    <!--增加记住我-->
+    <input type="checkbox" name="remember-me" value="true">记住我
+    <button type="submit">提交</button>
+</form>
+<hr/>
+<form action="/auth/sms" method="post">
+    手机号: <input type="text" name="phoneNumber" value="12345678912">
+    验证码: <input type="text" name="smsCode" ><a href="/verifyCode/sms?phoneNumber=12345678912">点击发送</a>
+    <input type="checkbox" name="remember-me" value="true">记住我
+    <button type="submit">提交</button>
+</form>
+</body>
+</html>

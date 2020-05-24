@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>lizhe-security-browser</artifactId>
+
+    <parent>
+        <artifactId>lizhe-security</artifactId>
+        <groupId>com.lizhe.security</groupId>
+        <version>1.0.0-SNAPSHOT</version>
+        <relativePath>../lizhe-security</relativePath>
+    </parent>
+
+    <dependencies>
+        <!--引入code就代表把code里的依赖都引进来了-->
+        <dependency>
+            <groupId>com.lizhe.security</groupId>
+            <artifactId>lizhe-security-code</artifactId>
+            <!--版本根据主模块的声明-->
+            <version>${lizhe.security.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.session</groupId>
+            <artifactId>spring-session-data-redis</artifactId>
+        </dependency>
+    </dependencies>
+</project>
