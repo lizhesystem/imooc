@@ -43,6 +43,24 @@
             <optional>true</optional>
         </dependency>
 
+        <!-- Guava支持 -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.0-jre</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+        </dependency>
+        <!-- Caffeine Cache支持 -->
+        <dependency>
+            <groupId>com.github.ben-manes.caffeine</groupId>
+            <artifactId>caffeine</artifactId>
+        </dependency>
+
+
         <!-- Mybatis Plus集成 -->
         <!-- MySql驱动 -->
         <dependency>

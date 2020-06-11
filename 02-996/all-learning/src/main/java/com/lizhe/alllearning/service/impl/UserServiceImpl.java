@@ -10,6 +10,7 @@ import com.lizhe.alllearning.domain.dto.UserQueryDTO;
 import com.lizhe.alllearning.domain.entity.UserDO;
 import com.lizhe.alllearning.mapper.UserMapper;
 import com.lizhe.alllearning.service.IUserService;
+import com.lizhe.alllearning.utils.ValidatorUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,6 +56,9 @@ public class UserServiceImpl implements IUserService {
     @Override
     public PageResult<List<UserDTO>> query(PageQuery<UserQueryDTO> pageQuery) {
 
+        // TODO 手工校验 在server层里使用校验器
+        ValidatorUtils.validate(pageQuery);
+
         Page page = new Page(pageQuery.getPageNo(), pageQuery.getPageSize());
         UserDO query = new UserDO();
         // TODO 如果属性不一致，需要做特殊处理 比如在pageQueryDTO里有时间范围之类的参数的话
@@ -76,7 +80,7 @@ public class UserServiceImpl implements IUserService {
         List<UserDTO> userDTOList = Optional.ofNullable(userDOIPage.getRecords())
                 .map(List::stream)
                 .orElseGet(Stream::empty)
-                // ↑ 防空
+                // ↑ 防空操作
                 .map(userDO -> {
                     UserDTO userDTO = new UserDTO();
                     BeanUtils.copyProperties(userDO, userDTO);

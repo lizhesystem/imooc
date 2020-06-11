@@ -8,12 +8,19 @@ import com.lizhe.alllearning.domain.dto.UserQueryDTO;
 import com.lizhe.alllearning.domain.vo.UserVO;
 import com.lizhe.alllearning.exception.ErrorCodeEnum;
 import com.lizhe.alllearning.service.IUserService;
+import com.lizhe.alllearning.utils.InsertValidationGroup;
+import com.lizhe.alllearning.utils.UpdateValidationGroup;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,6 +35,7 @@ import java.util.stream.Stream;
 @RestController
 @RequestMapping("/api/users")
 @Slf4j
+@Validated
 public class UserController {
 
 
@@ -40,8 +48,10 @@ public class UserController {
      *
      * @return ResponseResult
      */
+    @CacheEvict(cacheNames = "users-cache", allEntries = true)
     @PostMapping
-    public ResponseResult save(@RequestBody UserDTO userDTO) {
+    public ResponseResult save(@Validated(InsertValidationGroup.class)
+                               @RequestBody UserDTO userDTO) {
         int save = userService.save(userDTO);
         if (save == 1) {
             return ResponseResult.success("新增成功!");
@@ -57,7 +67,8 @@ public class UserController {
      * @return ResponseResult
      */
     @PutMapping("/{id}")
-    public ResponseResult update(@PathVariable("id") Long id, @RequestBody UserDTO userDTO) {
+    public ResponseResult update(@NotNull(message = "用户ID不能为空！") @PathVariable("id") Long id,
+                                 @Validated(UpdateValidationGroup.class) @RequestBody UserDTO userDTO) {
         int update = userService.update(id, userDTO);
         if (update == 1) {
             return ResponseResult.success("更新成功！");
@@ -73,7 +84,7 @@ public class UserController {
      * @return ResponseResult
      */
     @DeleteMapping("/{id}")
-    public ResponseResult delete(@PathVariable("id") Long id) {
+    public ResponseResult delete(@NotNull(message = "用户ID不能为空！") @PathVariable("id") Long id) {
         int delete = userService.delete(id);
         if (delete == 1) {
             return ResponseResult.success("删除成功！");
@@ -89,8 +100,15 @@ public class UserController {
      *
      * @return
      */
+    @Cacheable(cacheNames = "users-cache")
     @GetMapping
-    public ResponseResult<PageResult> query(Integer pageNo, Integer pageSize, UserQueryDTO query) {
+    public ResponseResult<PageResult> query(
+            @NotNull Integer pageNo,
+            @NotNull Integer pageSize,
+            @Validated UserQueryDTO query) {
+
+        log.info("未使用缓存！");
+
         // 获取分页 构建查询条件
         PageQuery<UserQueryDTO> pageQuery = new PageQuery<>();
         pageQuery.setPageNo(pageNo);
