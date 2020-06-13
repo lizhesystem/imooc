@@ -13,7 +13,8 @@ import java.util.UUID;
  * 类名称：TraceIdFilter
  * ********************************
  * <p>
- * 类描述：TraceId过滤器
+ * 类描述：TraceId过滤器 ：用于过滤请求，生成日志的时候多个用户请求打印一个他的traceId。
+ *                       实现用户跟踪。打印到日志。
  *
  * @author
  * @date 下午10:30

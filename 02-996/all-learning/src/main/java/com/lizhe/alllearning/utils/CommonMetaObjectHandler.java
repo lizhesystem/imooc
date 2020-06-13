@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDateTime;
 
 /**
- * 类描述：公共元数据处理器 新增or修改自动填充
+ * 类描述：公共元数据处理器  用于对mybatisPlus字段 的自动新增or修改自动填充
  *
  * @author LZ on 2020/6/10
  */

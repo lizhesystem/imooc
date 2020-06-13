@@ -32,6 +32,7 @@ public class WebConfig implements WebMvcConfigurer {
 
     /**
      * 向Web中添加拦截器
+     *
      * @param registry
      */
     @Override
@@ -42,4 +43,15 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/api/**");
     }
 
+    /**
+     * 静态资源配置
+     *
+     * @param registry
+     */
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        // 配置本地文件目录映射
+        registry.addResourceHandler("/uploads/**")
+                .addResourceLocations("file:\\code\\imooc\\02-996\\all-learning\\uploads\\");
+    }
 }

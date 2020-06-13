@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * ********************************
  * <p>
  * 类描述：全局限流【拦截器】 基于令牌桶 桶里只有这么多 访问了就不能再继续访问了
+ *        限制某个用户访问限制
  *
  * @author
  * @date 下午9:28
