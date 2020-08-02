@@ -1,36 +1,51 @@
+// router 用来获取请求，并且匹配请求地址 把数据传给 controller
+
+const {
+  getList,
+  getDetail,
+  newBlog,
+  updateBlog,
+  delBlog
+} = require('../controller/blog')
+const {SuccessModel, ErrorModel} = require('../model/resModel')
+
 const handleBlogRouter = (req, res) => {
   const method = req.method
-  const url = req.url
-  const path = url.split('?')[0]
+  const id = req.query.id
 
   // 获取博客列表
-  if (method === 'GET' && path === '/api/blog/list') {
-    return {
-      msg: '这是获取博客列表的接口'
+  if (method === 'GET' && req.path === '/api/blog/list') {
+    const author = req.query.author || ''
+    const keyword = req.query.keyword || ''
+    const listData = getList(author, keyword)
+    return new SuccessModel(listData)
+  }
+
+  if (method === 'GET' && req.path === '/api/blog/detail') {
+    const data = getDetail(id)
+    return new SuccessModel(data)
+  }
+
+  if (method === 'POST' && req.path === '/api/blog/new') {
+    const data = newBlog(req.body)
+    return new SuccessModel(data)
+  }
+
+  if (method === 'POST' && req.path === '/api/blog/update') {
+    const result = updateBlog(id, req.body)
+    if (result) {
+      return new SuccessModel()
+    } else {
+      return new ErrorModel('博客更新失败')
     }
   }
 
-  if (method === 'GET' && path === '/api/blog/detail') {
-    return {
-      msg: "获取详情"
-    }
-  }
-
-  if (method === 'POST' && path === '/api/blog/new') {
-    return {
-      msg: "新建博客"
-    }
-  }
-
-  if (method === 'POST' && path === '/api/blog/update') {
-    return {
-      msg: "更新博客"
-    }
-  }
-
-  if (method === 'POST' && path === '/api/blog/del') {
-    return {
-      msg: "删除博客"
+  if (method === 'POST' && req.path === '/api/blog/del') {
+    const result = delBlog(id)
+    if (result) {
+      return new SuccessModel()
+    } else {
+      return new ErrorModel('博客删除失败')
     }
   }
 
