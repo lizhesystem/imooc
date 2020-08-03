@@ -1,7 +1,17 @@
 // controller 处理数据。
+const {exec} = require('../db/mysql')
 
 const getList = (author, keyword) => {
-  return 'xxx'
+  // 创建 sql 使用 exec 执行。
+  let sql = `select * from blogs where 1=1 `
+  if (author) {
+    sql += `and author = '${author}'`
+  }
+  if (keyword) {
+    sql += `and title like '%${keyword}%'`
+  }
+  sql += ` order by createtime desc;`
+  return exec(sql)
 }
 
 const getDetail = (id) => {
