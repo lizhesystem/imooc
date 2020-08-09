@@ -2,6 +2,7 @@ const queryString = require('querystring')
 const handleBlogRouter = require('./src/router/bolg')
 const handleUserRouter = require('./src/router/user')
 
+
 // 处理post data
 const getPostData = (req) => {
   return new Promise(((resolve, reject) => {
@@ -23,7 +24,7 @@ const getPostData = (req) => {
         return
       }
       resolve(
-        JSON.parse(postData)
+          JSON.parse(postData)
       )
     })
   }))
@@ -47,7 +48,7 @@ const serverHandle = ((req, res) => {
     if (blogResult) {
       blogResult.then(blogData => {
         res.end(
-          JSON.stringify(blogData)
+            JSON.stringify(blogData)
         )
       })
       return
@@ -59,11 +60,14 @@ const serverHandle = ((req, res) => {
     // }
 
     // 处理 user 路由
-    const userData = handleUserRouter(req, res)
-    if (userData) {
-      res.end(
-        JSON.stringify(userData)
-      )
+    const useResult = handleUserRouter(req, res)
+    if (useResult) {
+      useResult.then(userData => {
+        res.end(
+            JSON.stringify(userData)
+        )
+      })
+      return;
     }
 
     // 路由未命中
