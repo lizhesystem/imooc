@@ -6,7 +6,7 @@
 
 // 布尔
 let isDone: boolean = false
-let isShow: boolean = true
+let isShow: boolean = true;
 
 // 数字
 let decLiteral: number = 10
