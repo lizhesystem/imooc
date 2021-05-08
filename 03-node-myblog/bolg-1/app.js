@@ -2,19 +2,13 @@ const querystring = require('querystring')
 const {get, set} = require('./src/db/redis')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
+const {getCookieExpires} = require("./src/utils/utils");
 
-// 获取 cookie 的过期时间
-const getCookieExpires = () => {
-  const d = new Date()
-  d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
-  console.log('d.toGMTString() is ', d.toGMTString())
-  return d.toGMTString()
-}
 
 // // session 数据
 // const SESSION_DATA = {}
 
-// 用于处理 post data 的判断
+// 用于处理 post data 的判断  不对 reject 做错误处理，认为它只是请求方式不对。
 const getPostData = (req) => {
   return new Promise((resolve, reject) => {
     if (req.method !== 'POST') {
@@ -45,7 +39,6 @@ const serverHandle = (req, res) => {
 
   // 设置返回格式 JSON
   res.setHeader('Content-type', 'application/json')
-
   // 获取 path
   const url = req.url
   req.path = url.split('?')[0]
@@ -54,17 +47,17 @@ const serverHandle = (req, res) => {
   req.query = querystring.parse(url.split('?')[1])
 
   // 解析 cookie
-  req.cookie = {}
-  const cookieStr = req.headers.cookie || ''  // k1=v1;k2=v2;k3=v3
-  cookieStr.split(';').forEach(item => {
-    if (!item) {
-      return
-    }
-    const arr = item.split('=')
-    const key = arr[0].trim()
-    const val = arr[1].trim()
-    req.cookie[key] = val
-  })
+  // req.cookie = {}
+  // const cookieStr = req.headers.cookie || ''  // k1=v1;k2=v2;k3=v3
+  // cookieStr.split(';').forEach(item => {
+  //   if (!item) {
+  //     return
+  //   }
+  //   const arr = item.split('=')
+  //   const key = arr[0].trim()
+  //   const val = arr[1].trim()
+  //   req.cookie[key] = val
+  // })
 
   // // 解析 session
   // let needSetCookie = false
@@ -120,9 +113,9 @@ const serverHandle = (req, res) => {
       const blogResult = handleBlogRouter(req, res)
       if (blogResult) {
         blogResult.then(blogData => {
-          if (needSetCookie) {
-            res.setHeader('Set-Cookie', `userid=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
-          }
+          // if (needSetCookie) {
+          res.setHeader('Set-Cookie', `userid=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
+          // }
 
           res.end(
             JSON.stringify(blogData)
@@ -142,9 +135,9 @@ const serverHandle = (req, res) => {
       const userResult = handleUserRouter(req, res)
       if (userResult) {
         userResult.then(userData => {
-          if (needSetCookie) {
-            res.setHeader('Set-Cookie', `userid=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
-          }
+          // if (needSetCookie) {
+          //   res.setHeader('Set-Cookie', `userid=${userId}; path=/; httpOnly; expires=${getCookieExpires()}`)
+          // }
 
           res.end(
             JSON.stringify(userData)

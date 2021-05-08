@@ -31,7 +31,7 @@ console.log(y[0].substr(1))
 // console.log(y[1].substr(1))  // error：number不存在 substr 方法
 
 // y[2] = 'eeeeeeeee'
-// y[3] = '33333' // 这俩都error：越界了
+// y[3] = '33333' // 这俩都error：越界了不能访问
 // y[1] = '22' // error：索引1是number类型
 y[1] = 20;
 y[0] = 'yyy'
@@ -99,8 +99,7 @@ function infiniteLoop(): never {
 
 
 // object :object 表示非原始类型，也就是除 number，string，boolean，symbol，null或undefined 之外的类型。
-const create = (o: object | null): void => {
-};
+const create = (o: object | null): void => {};
 
 create({ prop: 0 }) // OK
 create(null) // OK
