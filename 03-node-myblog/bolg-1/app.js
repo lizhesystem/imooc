@@ -6,7 +6,7 @@ const {getCookieExpires} = require("./src/utils/utils");
 
 
 // // session 数据
-// const SESSION_DATA = {}
+const SESSION_DATA = {}
 
 // 用于处理 post data 的判断  不对 reject 做错误处理，认为它只是请求方式不对。
 const getPostData = (req) => {
